@@ -1,0 +1,45 @@
+<app-navbar></app-navbar>
+<div class="container mt-5 pt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-primary text-white py-3">
+          <h2 class="text-center mb-0">
+            <i class="fas fa-user me-2"></i>
+            Profile Information
+          </h2>
+        </div>
+
+        <div class="card-body p-4">
+          <div class="mb-4">
+            <label class="form-label fw-bold">
+              <i class="fas fa-user-tag me-2"></i>Full Name
+            </label>
+            <p class="form-control form-control-lg shadow-sm">{{ user.name }}</p>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-bold">
+              <i class="fas fa-envelope me-2"></i>Email
+            </label>
+            <p class="form-control form-control-lg shadow-sm">{{ user.email }}</p>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-bold">
+              <i class="fas fa-user-shield me-2"></i>Role
+            </label>
+            <p class="form-control form-control-lg shadow-sm">{{ user.role }}</p>
+          </div>
+
+          <div class="d-grid">
+            <button type="button" class="btn btn-outline-secondary btn-lg" routerLink="/home">
+              <i class="fas fa-arrow-left me-2"></i>
+              Back to Home
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

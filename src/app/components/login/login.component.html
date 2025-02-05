@@ -1,0 +1,54 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-gradient bg-primary text-white py-3">
+          <h3 class="text-center mb-0 fw-bold">Welcome Back</h3>
+          <p class="text-center mb-0 small">Please login to your account</p>
+        </div>
+        <div class="card-body p-4">
+          <form [formGroup]="formGroup" (ngSubmit)="onLogin()">
+            <div class="form-group mb-3">
+              <label for="email" class="form-label fw-semibold">Email address</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-envelope text-primary"></i></span>
+                <input type="email" class="form-control form-control-lg" id="email" formControlName="email"
+                       placeholder="Enter your email">
+              </div>
+              <!-- Add validation message -->
+              <div class="small text-danger mt-1" *ngIf="formGroup.get('email')?.touched && formGroup.get('email')?.invalid">
+                Please enter a valid email address
+              </div>
+            </div>
+            <div class="form-group mb-4">
+              <label for="password" class="form-label fw-semibold">Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-lock text-primary"></i></span>
+                <input [type]="showPassword ? 'text' : 'password'" class="form-control form-control-lg" id="password" formControlName="password"
+                       placeholder="Enter your password">
+                       <button class="btn btn-outline-secondary" type="button" (click)="showPassword = !showPassword">
+                        <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                      </button>
+              </div>
+              <!-- Add validation message -->
+              <div class="small text-danger mt-1" *ngIf="formGroup.get('password')?.touched && formGroup.get('password')?.invalid">
+                Password is required
+              </div>
+            </div>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg" [disabled]="formGroup.invalid">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+              </button>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <p class="text-muted">Don't have an account?
+          <a routerLink="/register" class="text-decoration-none text-primary fw-bold">Register here</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

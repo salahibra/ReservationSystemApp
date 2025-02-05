@@ -1,0 +1,101 @@
+<app-navbar></app-navbar>
+<div class="container mt-5 pt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-primary text-white py-3">
+          <h2 class="text-center mb-0">
+            <i class="fas fa-edit me-2"></i>
+            Edit Reservation
+          </h2>
+        </div>
+
+        <div class="card-body p-4">
+          <form *ngIf="reservation" #reservationForm="ngForm" (ngSubmit)="updateReservation()">
+            <div class="mb-4">
+              <label for="date" class="form-label fw-bold">
+                <i class="fas fa-calendar-alt me-2"></i>Select Date
+              </label>
+              <input type="date"
+                     class="form-control form-control-lg shadow-sm"
+                     id="date"
+                     name="date"
+                     [min]="today"
+                     [max]="maxDate"
+                     #dateInput="ngModel"
+                     [(ngModel)]="reservation.dateReservation"
+                     (change)="getPcs()"
+                     (change)="getTimeSlots(reservation.dateReservation)"
+                     required
+                     [class.is-invalid]="dateInput.invalid && (dateInput.dirty || dateInput.touched)">
+              <div class="invalid-feedback" *ngIf="dateInput.invalid && (dateInput.dirty || dateInput.touched)">
+                Please select a date.
+              </div>
+            </div>
+
+
+            <div class="mb-4">
+              <label for="timeSlot" class="form-label fw-bold">
+              <i class="fas fa-clock me-2"></i>Time Slot
+              </label>
+              <select class="form-select form-select-lg shadow-sm"
+                  id="timeSlot"
+                  name="timeSlot"
+                  #timeSlotInput="ngModel"
+                  [(ngModel)]="reservation.timeSlot"
+                  (change)="getPcs()"
+                  required
+                  [class.is-invalid]="timeSlotInput.invalid && (timeSlotInput.dirty || timeSlotInput.touched)">
+              <option value="" disabled>Select your time slot</option>
+              <option *ngFor="let slot of timeSlots" [value]="slot">
+                {{slot === '0' ? '8:00 - 10:00' :
+                 slot === '1' ? '10:00 - 12:00' :
+                 slot === '2' ? '14:00 - 16:00' :
+                 slot === '3' ? '16:00 - 18:00' : ''}}
+              </option>
+              </select>
+              <div class="invalid-feedback" *ngIf="timeSlotInput.invalid && (timeSlotInput.dirty || timeSlotInput.touched)">
+              Please select a time slot.
+              </div>
+            </div>
+
+
+
+
+            <div class="mb-4">
+              <label for="pc" class="form-label fw-bold">
+                <i class="fas fa-desktop me-2"></i>Available PC
+              </label>
+              <select class="form-select form-select-lg shadow-sm"
+                      id="pc"
+                      name="pc"
+                      #pcInput="ngModel"
+                      [(ngModel)]="reservation.pc"
+                      required
+                      [class.is-invalid]="pcInput.invalid && (pcInput.dirty || pcInput.touched)">
+                <option value="" disabled>Select a PC</option>
+                <option *ngFor="let pc of pcs" [value]="pc">{{pc}}</option>
+              </select>
+              <div class="invalid-feedback" *ngIf="pcInput.invalid && (pcInput.dirty || pcInput.touched)">
+                Please select a PC station.
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit"
+                      class="btn btn-primary btn-lg shadow"
+                      [disabled]="!reservationForm.form.valid">
+                <i class="fas fa-save me-2"></i>
+                Update Reservation
+              </button>
+              <button type="button" class="btn btn-outline-secondary btn-lg" routerLink="/home">
+                <i class="fas fa-arrow-left me-2"></i>
+                Back to Home
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

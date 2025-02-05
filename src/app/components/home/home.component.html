@@ -1,0 +1,95 @@
+<app-navbar></app-navbar>
+<div class="container mt-5">
+  <div class="welcome-section mb-5 text-center">
+    <h1 class="display-4 fw-bold">Welcome, {{user?.name}}</h1>
+    <hr class="my-4 w-50 mx-auto">
+  </div>
+  <div class="row mb-4">
+    <div class="col-12 mb-3">
+      <h2 class="text-primary fw-bold">
+        <i class="fas fa-calendar-check me-2"></i>Your Current Reservations
+      </h2>
+    </div>
+    <div class="col-12">
+      <div class="d-flex flex-wrap gap-3">
+        <div class="input-group" style="width: 200px;">
+          <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+          <input type="date" class="form-control" (change)="searchReservationByDate($event)" aria-label="Search by date">
+        </div>
+        <div class="input-group" style="width: 200px;">
+          <span class="input-group-text"><i class="fas fa-desktop"></i></span>
+          <input type="text" class="form-control" placeholder="PC#" (input)="searchReservationByPc($event)" aria-label="Search by PC">
+        </div>
+        <div class="input-group" style="width: 200px;">
+          <span class="input-group-text"><i class="fas fa-clock"></i></span>
+          <select class="form-select" (change)="searchReservationByTimeSlot($event)" aria-label="Search by time slot">
+            <option value="" selected>Time Slot</option>
+            <option value="0">08:00 - 10:00</option>
+            <option value="1">10:00 - 12:00</option>
+            <option value="2">14:00 - 16:00</option>
+            <option value="3">16:00 - 18:00</option>
+          </select>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-light dropdown-toggle shadow-sm" type="button" id="sortingDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-sort me-2"></i>Sort By
+          </button>
+          <ul class="dropdown-menu shadow" aria-labelledby="sortingDropdown">
+            <li><button class="dropdown-item" (click)="sortReservations($event)" value="date_asc"><i class="fas fa-sort-amount-up-alt me-2"></i>Date ↑</button></li>
+            <li><button class="dropdown-item" (click)="sortReservations($event)" value="date_desc"><i class="fas fa-sort-amount-down me-2"></i>Date ↓</button></li>
+            <li><button class="dropdown-item" (click)="sortReservations($event)" value="time_slot_asc"><i class="fas fa-clock me-2"></i>Time Slot ↑</button></li>
+            <li><button class="dropdown-item" (click)="sortReservations($event)" value="time_slot_desc"><i class="fas fa-clock me-2"></i>Time Slot ↓</button></li>
+            <li><button class="dropdown-item" (click)="sortReservations($event)" value="pc_asc"><i class="fas fa-desktop me-2"></i>PC# ↑</button></li>
+            <li><button class="dropdown-item" (click)="sortReservations($event)" value="pc_desc"><i class="fas fa-desktop me-2"></i>PC# ↓</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="reservations.length === 0" class="alert alert-info shadow-sm">
+    <i class="fas fa-info-circle me-2"></i>No active reservations found.
+  </div>
+
+  <div *ngIf="reservations.length > 0" class="card shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th scope="col" class="fw-bold">ID</th>
+            <th scope="col" class="fw-bold">Date</th>
+            <th scope="col" class="fw-bold">Time Slot</th>
+            <th scope="col" class="fw-bold">PC Number</th>
+            <th scope="col" class="fw-bold text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reservation of reservations">
+            <td><span class="badge bg-secondary">#{{reservation.id}}</span></td>
+            <td>{{reservation.dateReservation | date:'MMMM d, yyyy'}}</td>
+            <td>
+              <span [ngSwitch]="reservation.timeSlot" class="badge bg-info text-dark">
+                <span *ngSwitchCase="'0'">08:00 - 10:00</span>
+                <span *ngSwitchCase="'1'">10:00 - 12:00</span>
+                <span *ngSwitchCase="'2'">14:00 - 16:00</span>
+                <span *ngSwitchCase="'3'">16:00 - 18:00</span>
+              </span>
+            </td>
+            <td>{{reservation.pc?.toUpperCase()}}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-outline-danger me-1" title="Cancel Reservation" (click)="cancelReservation(reservation.id)">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-warning me-1" title="Edit Reservation" [routerLink]="'/edit-reservation/' + reservation.id">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-success" title="Generate QR Code" (click)="downloadQrCode(reservation.id)">
+                <i class="fa-solid fa-qrcode"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
